@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.IO;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.EntityFrameworkCore;
+using MvcWebApp.Data;
 
 namespace MvcWebApp
 {
@@ -26,6 +24,8 @@ namespace MvcWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<UniversityContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
         }
 
@@ -40,6 +40,11 @@ namespace MvcWebApp
             //    sw.Stop();
             //    await File.AppendAllTextAsync("logs/log.txt", $"request {context.Request.GetDisplayUrl()} was processed in {sw.ElapsedMilliseconds} ms\n");
             //});
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             app.UseMiddleware<StopwatchMiddleware>();
 

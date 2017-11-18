@@ -1,14 +1,10 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
-using System.IO;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.EntityFrameworkCore;
 using MvcWebApp.Data;
+using MvcWebApp.Middlewares;
 
 namespace MvcWebApp
 {
@@ -32,15 +28,6 @@ namespace MvcWebApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //app.Use(async (context, next) =>
-            //{
-            //    var sw = new Stopwatch();
-            //    sw.Start();
-            //    await next();
-            //    sw.Stop();
-            //    await File.AppendAllTextAsync("logs/log.txt", $"request {context.Request.GetDisplayUrl()} was processed in {sw.ElapsedMilliseconds} ms\n");
-            //});
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -56,22 +43,6 @@ namespace MvcWebApp
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-        }
-    }
-
-    public class StopwatchMiddleware
-    {
-        private readonly RequestDelegate next;
-
-        public StopwatchMiddleware(RequestDelegate next) => this.next = next;
-
-        public async Task Invoke(HttpContext context)
-        {
-            var sw = new Stopwatch();
-            sw.Start();
-            await next(context);
-            sw.Stop();
-            await File.AppendAllTextAsync("logs/log.txt", $"request {context.Request.GetDisplayUrl()} was processed in {sw.ElapsedMilliseconds} ms\n");
         }
     }
 }

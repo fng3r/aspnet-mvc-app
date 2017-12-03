@@ -15,13 +15,16 @@ namespace MvcWebApp.Models
         [Required]
         [MinLength(2)]
         [MaxLength(30)]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
         [Required]
         [MinLength(2)]
         [MaxLength(30)]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Display(Name = "Enrollment Date")]
         public DateTime EnrollmentDate { get; set; }
     }
 }

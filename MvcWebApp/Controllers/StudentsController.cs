@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MvcWebApp.Data;
 using MvcWebApp.Models;
 
@@ -22,6 +20,12 @@ namespace MvcWebApp.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
+            //Example of fetching service from HttpContext
+            //var context = HttpContext.RequestServices.GetService<UniversityContext>();
+
+            //Create instance using ActivatorUtilities
+            //var context = ActivatorUtilities.CreateInstance<UniversityContext>(HttpContext.RequestServices);
+
             return View(await _context.Students.ToListAsync());
         }
 
@@ -117,7 +121,11 @@ namespace MvcWebApp.Controllers
         }
 
         // GET: Students/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(
+            int? id
+            // Get service as method parameter
+            //, [FromServices] UniversityContext context
+            )
         {
             if (id == null)
             {

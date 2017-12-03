@@ -1,8 +1,12 @@
-﻿@model IEnumerable<MvcWebApp.Models.Student>
+﻿@using Microsoft.EntityFrameworkCore
+@model IEnumerable<MvcWebApp.Models.Student>
 
 @{
     ViewData["Title"] = "Index";
 }
+
+@*Example of fetching service in the form*@ 
+@*@inject DbContext context*@
 
 <h2>Index</h2>
 
